@@ -537,6 +537,34 @@ static int ioctl_fsthaw(struct file *filp)
 	return thaw_bdev(sb->s_bdev, sb);
 }
 
+static int ioctl_fstrim(struct file *filp, unsigned long arg)
+{
+	struct super_block *sb = filp->f_path.dentry->d_inode->i_sb;
+	unsigned int minlen;
+	int err;
+    
+	if (!capable(CAP_SYS_ADMIN))
+		return -EPERM;
+    
+	/* If filesystem doesn't support trim feature, return. */
+	if (sb->s_op->trim_fs == NULL)
+		return -EOPNOTSUPP;
+    
+	/* If a blockdevice-backed filesystem isn't specified, return EINVAL. */
+	if (sb->s_bdev == NULL)
+		return -EINVAL;
+    
+	err = get_user(minlen, (unsigned int __user *) arg);
+	if (err)
+		return err;
+    
+	err = sb->s_op->trim_fs(minlen, sb);
+	if (err)
+		return err;
+	return 0;
+}
+
+
 /*
  * When you add any new common ioctls to the switches above and below
  * please update compat_sys_ioctl() too.
@@ -585,6 +613,10 @@ int do_vfs_ioctl(struct file *filp, unsigned int fd, unsigned int cmd,
 
 	case FITHAW:
 		error = ioctl_fsthaw(filp);
+		break;
+
+	case FITRIM:
+		error = ioctl_fstrim(filp, arg);
 		break;
 
 	case FS_IOC_FIEMAP:
