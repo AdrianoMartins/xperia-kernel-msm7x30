@@ -87,9 +87,8 @@ static struct cpufreq_frequency_table freq_table[] = {
 	{ 5, 921600 },
 	{ 6, 1209600 },
 	{ 7, 1401600 },
-	{ 8, 1516800 },
-	{ 9, 1612800 },
-	{ 10, CPUFREQ_TABLE_END },
+	{ 8, 1612800 },
+	{ 9, CPUFREQ_TABLE_END },
 };
 
 /* Use negative numbers for sources that can't be enabled/disabled */
@@ -110,8 +109,7 @@ static struct clkctl_acpu_speed acpu_freq_tbl[] = {
 	{ 921600, PLL_2,    3, 0,  UINT_MAX, 1150, VDD_RAW(1150) },
 	{ 1209600, PLL_2,   3, 0,  UINT_MAX, 1200, VDD_RAW(1200) },
 	{ 1401600, PLL_2,   3, 0,  UINT_MAX, 1250, VDD_RAW(1250) },
-	{ 1516800, PLL_2,   3, 0,  UINT_MAX, 1300, VDD_RAW(1300) },
-	{ 1612800, PLL_2,   3, 0,  UINT_MAX, 1350, VDD_RAW(1350) },
+	{ 1612800, PLL_2,   3, 0,  UINT_MAX, 1300, VDD_RAW(1300) },
 	{ 0 }
 };
 
