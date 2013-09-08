@@ -79,16 +79,26 @@ struct clkctl_acpu_speed {
 static struct clock_state drv_state = { 0 };
 
 static struct cpufreq_frequency_table freq_table[] = {
-	{ 0, 364800 },
-	{ 1, 460800 },
-	{ 2, 576000 },
-	{ 3, 768000 },
-	{ 4, 806400 },
-	{ 5, 921600 },
-	{ 6, 1209600 },
-	{ 7, 1401600 },
-	{ 8, 1612800 },
-	{ 9, CPUFREQ_TABLE_END },
+    { 0, 134400 },
+    { 1, 184320 },
+    { 2, 249600 },
+    { 3, 364800 },
+    { 4, 460800 },
+    { 5, 576000 },
+    { 6, 652800 },
+    { 7, 768000 },
+    /* 806.4MHz is updated to 1024MHz at runtime for MSM8x55. */
+    { 8, 806400 },
+    { 9, 921600 },
+    { 10, 1017600 },
+    { 11, 1113600 },
+    { 12, 1209600 },
+    { 13, 1305600 },
+    { 14, 1401600 },
+    { 15, 1516800 },
+    { 16, 1612800 },
+    { 17, 1708800 },
+	{ 18, CPUFREQ_TABLE_END },
 };
 
 /* Use negative numbers for sources that can't be enabled/disabled */
@@ -101,15 +111,30 @@ static struct cpufreq_frequency_table freq_table[] = {
  * know all the h/w requirements.
  */
 static struct clkctl_acpu_speed acpu_freq_tbl[] = {
-	{ 364800, PLL_3,    5, 1,  122800000, 900, VDD_RAW(900) },
-	{ 460800, PLL_1,    2, 0,  153600000, 950, VDD_RAW(950) },
-	{ 576000, PLL_1,    2, 0,  153600000, 1000, VDD_RAW(1000) },
-	{ 768000, PLL_1,    2, 0,  153600000, 1050, VDD_RAW(1050) },
-	{ 806400, PLL_2,    3, 0,  UINT_MAX, 1100, VDD_RAW(1100) },
-	{ 921600, PLL_2,    3, 0,  UINT_MAX, 1150, VDD_RAW(1150) },
-	{ 1209600, PLL_2,   3, 0,  UINT_MAX, 1200, VDD_RAW(1200) },
-	{ 1401600, PLL_2,   3, 0,  UINT_MAX, 1250, VDD_RAW(1250) },
-	{ 1612800, PLL_2,   3, 0,  UINT_MAX, 1300, VDD_RAW(1300) },
+    { 134400, PLL_3, 5, 5, 61440000, 900, VDD_RAW(900) },
+    { 184320, PLL_3, 5, 4, 61440000, 900, VDD_RAW(900) },
+    { MAX_AXI_KHZ, SRC_AXI, 1, 0, 61440000, 900, VDD_RAW(900) },
+    { 249600, PLL_3, 5, 2, 61440000, 900, VDD_RAW(900) },
+    { 364800, PLL_3, 5, 1, 122800000, 900, VDD_RAW(900) },
+    /* AXI has MSMC1 implications. See above. */
+    { 460800, PLL_1, 2, 0, 153600000, 950, VDD_RAW(950) },
+    { 576000, PLL_1, 2, 0, 153600000, 1000, VDD_RAW(1000) },
+    { 652800, PLL_1, 2, 0, 153600000, 1050, VDD_RAW(1050) },
+    { 768000, PLL_1, 2, 0, 153600000, 1050, VDD_RAW(1050) },
+    /*
+     * AXI has MSMC1 implications. See above.
+     * 806.4MHz is increased to match the SoC's capabilities at runtime
+     */
+    { 806400, PLL_2, 3, 0, UINT_MAX, 1100, VDD_RAW(1100) },
+    { 921600, PLL_2, 3, 0, UINT_MAX, 1150, VDD_RAW(1150) },
+    { 1017600, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200) },
+    { 1113600, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200) },
+    { 1209600, PLL_2, 3, 0, UINT_MAX, 1200, VDD_RAW(1200) },
+    { 1305600, PLL_2, 3, 0, UINT_MAX, 1250, VDD_RAW(1250) },
+    { 1401600, PLL_2, 3, 0, UINT_MAX, 1250, VDD_RAW(1250) },
+    { 1516800, PLL_2, 3, 0, UINT_MAX, 1300, VDD_RAW(1300) },
+    { 1612800, PLL_2, 3, 0, UINT_MAX, 1300, VDD_RAW(1300) },
+    { 1708800, PLL_2, 3, 0, UINT_MAX, 1350, VDD_RAW(1350) },
 	{ 0 }
 };
 
