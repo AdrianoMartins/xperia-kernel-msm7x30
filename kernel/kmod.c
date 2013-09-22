@@ -85,7 +85,7 @@ static int call_modprobe(char *module_name, int wait)
 	if (!info)
 		goto free_module_name;
 
-	call_usermodehelper_setcleanup(info, free_modprobe_argv);
+	call_usermodehelper_setfns(info, NULL, free_modprobe_argv, NULL);
 
 	return call_usermodehelper_exec(info, wait | UMH_KILLABLE);
 
